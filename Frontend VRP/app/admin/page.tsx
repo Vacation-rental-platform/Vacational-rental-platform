@@ -173,28 +173,28 @@ export default function AdminDashboard() {
   const getStatusColor = (status: string) => {
     switch (status) {
       case "confirmed":
-        return "bg-green-500/20 text-green-400 border-green-500/30"
+        return "bg-green-500/20 text-green-700 border-green-500/30"
       case "pending":
-        return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
+        return "bg-yellow-500/20 text-yellow-700 border-yellow-500/30"
       case "cancelled":
-        return "bg-red-500/20 text-red-400 border-red-500/30"
+        return "bg-red-500/20 text-red-700 border-red-500/30"
       case "active":
-        return "bg-green-500/20 text-green-400 border-green-500/30"
+        return "bg-green-500/20 text-green-700 border-green-500/30"
       case "maintenance":
-        return "bg-orange-500/20 text-orange-400 border-orange-500/30"
+        return "bg-orange-500/20 text-orange-700 border-orange-500/30"
       default:
-        return "bg-gray-500/20 text-gray-400 border-gray-500/30"
+        return "bg-gray-500/20 text-gray-700 border-gray-500/30"
     }
   }
 
   return (
-    <div className="min-h-screen bg-black text-white pt-16">
+    <div className="min-h-screen beach-sand-bg text-gray-900 pt-16">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold mb-2">Admin Dashboard</h1>
-            <p className="text-gray-400">Manage your vacation rental business</p>
+            <h1 className="text-3xl font-bold mb-2 text-gray-900">Admin Dashboard</h1>
+            <p className="text-gray-600">Manage your vacation rental business</p>
           </div>
           <div className="flex items-center space-x-4">
             <Button className="bg-red-600 hover:bg-red-700">
@@ -213,18 +213,18 @@ export default function AdminDashboard() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className="bg-white border-gray-200 shadow-sm">
                 <CardContent className="p-6">
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-gray-400 text-sm font-medium">{stat.title}</p>
-                      <p className="text-2xl font-bold text-white mt-1">{stat.value}</p>
+                      <p className="text-gray-600 text-sm font-medium">{stat.title}</p>
+                      <p className="text-2xl font-bold text-gray-900 mt-1">{stat.value}</p>
                       <p className={`text-sm mt-1 ${stat.color}`}>
                         <TrendingUp className="w-4 h-4 inline mr-1" />
                         {stat.change}
                       </p>
                     </div>
-                    <div className={`p-3 rounded-lg bg-gray-800 ${stat.color}`}>
+                    <div className={`p-3 rounded-lg bg-gray-100 ${stat.color}`}>
                       <stat.icon className="w-6 h-6" />
                     </div>
                   </div>
@@ -236,20 +236,20 @@ export default function AdminDashboard() {
 
         {/* Main Content */}
         <Tabs defaultValue="overview" className="space-y-6">
-          <TabsList className="bg-gray-900 border-gray-800">
-            <TabsTrigger value="overview" className="data-[state=active]:bg-red-600">
+          <TabsList className="bg-white border-gray-200">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
               Overview
             </TabsTrigger>
-            <TabsTrigger value="bookings" className="data-[state=active]:bg-red-600">
+            <TabsTrigger value="bookings" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
               Bookings
             </TabsTrigger>
-            <TabsTrigger value="properties" className="data-[state=active]:bg-red-600">
+            <TabsTrigger value="properties" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
               Properties
             </TabsTrigger>
-            <TabsTrigger value="services" className="data-[state=active]:bg-red-600">
+            <TabsTrigger value="services" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
               Services
             </TabsTrigger>
-            <TabsTrigger value="analytics" className="data-[state=active]:bg-red-600">
+            <TabsTrigger value="analytics" className="data-[state=active]:bg-red-600 data-[state=active]:text-white">
               Analytics
             </TabsTrigger>
           </TabsList>
@@ -257,35 +257,35 @@ export default function AdminDashboard() {
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className="bg-white border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-white">Recent Activity</CardTitle>
+                  <CardTitle className="text-gray-900">Recent Activity</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    <div className="flex justify-between items-center py-2 border-b border-gray-800">
-                      <span>New booking: Miami Beach Villa</span>
-                      <span className="text-gray-400">2 hours ago</span>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                      <span className="text-gray-900">New booking: Miami Beach Villa</span>
+                      <span className="text-gray-600">2 hours ago</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-800">
-                      <span>Property added: Denver Mountain Cabin</span>
-                      <span className="text-gray-400">5 hours ago</span>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                      <span className="text-gray-900">Property added: Denver Mountain Cabin</span>
+                      <span className="text-gray-600">5 hours ago</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-gray-800">
-                      <span>Service booking: Massage Therapy</span>
-                      <span className="text-gray-400">1 day ago</span>
+                    <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                      <span className="text-gray-900">Service booking: Massage Therapy</span>
+                      <span className="text-gray-600">1 day ago</span>
                     </div>
                     <div className="flex justify-between items-center py-2">
-                      <span>Payment received: $2,450</span>
-                      <span className="text-gray-400">2 days ago</span>
+                      <span className="text-gray-900">Payment received: $2,450</span>
+                      <span className="text-gray-600">2 days ago</span>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className="bg-white border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-white">Top Performing Properties</CardTitle>
+                  <CardTitle className="text-gray-900">Top Performing Properties</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
@@ -299,13 +299,13 @@ export default function AdminDashboard() {
                             crossOrigin="anonymous"
                           />
                           <div>
-                            <p className="font-medium text-white">{property.name}</p>
-                            <p className="text-sm text-gray-400">{property.location}</p>
+                            <p className="font-medium text-gray-900">{property.name}</p>
+                            <p className="text-sm text-gray-600">{property.location}</p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="font-semibold text-green-400">{property.revenue}</p>
-                          <p className="text-sm text-gray-400">{property.bookings} bookings</p>
+                          <p className="font-semibold text-green-600">{property.revenue}</p>
+                          <p className="text-sm text-gray-600">{property.bookings} bookings</p>
                         </div>
                       </div>
                     ))}
@@ -317,25 +317,25 @@ export default function AdminDashboard() {
 
           {/* Bookings Tab */}
           <TabsContent value="bookings" className="space-y-6">
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-white border-gray-200">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Recent Bookings</CardTitle>
+                  <CardTitle className="text-gray-900">Recent Bookings</CardTitle>
                   <div className="flex items-center space-x-4">
                     <div className="relative">
-                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-4 h-4" />
                       <Input
                         placeholder="Search bookings..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 w-64 bg-gray-800 border-gray-700"
+                        className="pl-10 w-64 bg-white border-gray-300"
                       />
                     </div>
                     <Select value={filterStatus} onValueChange={setFilterStatus}>
-                      <SelectTrigger className="w-32 bg-gray-800 border-gray-700">
+                      <SelectTrigger className="w-32 bg-white border-gray-300">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-800 border-gray-700">
+                      <SelectContent className="bg-white border-gray-300">
                         <SelectItem value="all">All Status</SelectItem>
                         <SelectItem value="confirmed">Confirmed</SelectItem>
                         <SelectItem value="pending">Pending</SelectItem>
@@ -348,20 +348,20 @@ export default function AdminDashboard() {
               <CardContent>
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-gray-800">
-                      <TableHead className="text-gray-400">Booking</TableHead>
-                      <TableHead className="text-gray-400">Property</TableHead>
-                      <TableHead className="text-gray-400">Guest</TableHead>
-                      <TableHead className="text-gray-400">Dates</TableHead>
-                      <TableHead className="text-gray-400">Amount</TableHead>
-                      <TableHead className="text-gray-400">Status</TableHead>
-                      <TableHead className="text-gray-400">Actions</TableHead>
+                    <TableRow className="border-gray-200">
+                      <TableHead className="text-gray-600">Booking</TableHead>
+                      <TableHead className="text-gray-600">Property</TableHead>
+                      <TableHead className="text-gray-600">Guest</TableHead>
+                      <TableHead className="text-gray-600">Dates</TableHead>
+                      <TableHead className="text-gray-600">Amount</TableHead>
+                      <TableHead className="text-gray-600">Status</TableHead>
+                      <TableHead className="text-gray-600">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {recentBookings.map((booking) => (
-                      <TableRow key={booking.id} className="border-gray-800">
-                        <TableCell className="text-white font-medium">{booking.id}</TableCell>
+                      <TableRow key={booking.id} className="border-gray-200">
+                        <TableCell className="text-gray-900 font-medium">{booking.id}</TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-3">
                             <img
@@ -370,23 +370,23 @@ export default function AdminDashboard() {
                               className="w-12 h-10 rounded object-cover"
                               crossOrigin="anonymous"
                             />
-                            <span className="text-gray-300">{booking.property}</span>
+                            <span className="text-gray-700">{booking.property}</span>
                           </div>
                         </TableCell>
-                        <TableCell className="text-gray-300">{booking.guest}</TableCell>
-                        <TableCell className="text-gray-300">
+                        <TableCell className="text-gray-700">{booking.guest}</TableCell>
+                        <TableCell className="text-gray-700">
                           {booking.checkIn} to {booking.checkOut}
                         </TableCell>
-                        <TableCell className="text-white font-semibold">{booking.amount}</TableCell>
+                        <TableCell className="text-gray-900 font-semibold">{booking.amount}</TableCell>
                         <TableCell>
                           <Badge className={getStatusColor(booking.status)}>{booking.status}</Badge>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+                            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+                            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
                               <Edit className="w-4 h-4" />
                             </Button>
                           </div>
@@ -401,10 +401,10 @@ export default function AdminDashboard() {
 
           {/* Properties Tab */}
           <TabsContent value="properties" className="space-y-6">
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-white border-gray-200">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Property Management</CardTitle>
+                  <CardTitle className="text-gray-900">Property Management</CardTitle>
                   <Button className="bg-red-600 hover:bg-red-700">
                     <Plus className="w-4 h-4 mr-2" />
                     Add New Property
@@ -414,20 +414,20 @@ export default function AdminDashboard() {
               <CardContent>
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-gray-800">
-                      <TableHead className="text-gray-400">Property</TableHead>
-                      <TableHead className="text-gray-400">Location</TableHead>
-                      <TableHead className="text-gray-400">Price</TableHead>
-                      <TableHead className="text-gray-400">Occupancy</TableHead>
-                      <TableHead className="text-gray-400">Rating</TableHead>
-                      <TableHead className="text-gray-400">Revenue</TableHead>
-                      <TableHead className="text-gray-400">Status</TableHead>
-                      <TableHead className="text-gray-400">Actions</TableHead>
+                    <TableRow className="border-gray-200">
+                      <TableHead className="text-gray-600">Property</TableHead>
+                      <TableHead className="text-gray-600">Location</TableHead>
+                      <TableHead className="text-gray-600">Price</TableHead>
+                      <TableHead className="text-gray-600">Occupancy</TableHead>
+                      <TableHead className="text-gray-600">Rating</TableHead>
+                      <TableHead className="text-gray-600">Revenue</TableHead>
+                      <TableHead className="text-gray-600">Status</TableHead>
+                      <TableHead className="text-gray-600">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {properties.map((property) => (
-                      <TableRow key={property.id} className="border-gray-800">
+                      <TableRow key={property.id} className="border-gray-200">
                         <TableCell>
                           <div className="flex items-center space-x-3">
                             <img
@@ -436,26 +436,26 @@ export default function AdminDashboard() {
                               className="w-12 h-10 rounded object-cover"
                               crossOrigin="anonymous"
                             />
-                            <span className="text-white font-medium">{property.name}</span>
+                            <span className="text-gray-900 font-medium">{property.name}</span>
                           </div>
                         </TableCell>
-                        <TableCell className="text-gray-300">{property.location}</TableCell>
-                        <TableCell className="text-gray-300">{property.price}</TableCell>
-                        <TableCell className="text-gray-300">{property.occupancy}</TableCell>
-                        <TableCell className="text-gray-300">{property.rating}</TableCell>
-                        <TableCell className="text-green-400 font-semibold">{property.revenue}</TableCell>
+                        <TableCell className="text-gray-700">{property.location}</TableCell>
+                        <TableCell className="text-gray-700">{property.price}</TableCell>
+                        <TableCell className="text-gray-700">{property.occupancy}</TableCell>
+                        <TableCell className="text-gray-700">{property.rating}</TableCell>
+                        <TableCell className="text-green-600 font-semibold">{property.revenue}</TableCell>
                         <TableCell>
                           <Badge className={getStatusColor(property.status)}>{property.status}</Badge>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+                            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+                            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
                               <Edit className="w-4 h-4" />
                             </Button>
-                            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-red-400">
+                            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-red-600">
                               <Trash2 className="w-4 h-4" />
                             </Button>
                           </div>
@@ -470,10 +470,10 @@ export default function AdminDashboard() {
 
           {/* Services Tab */}
           <TabsContent value="services" className="space-y-6">
-            <Card className="bg-gray-900 border-gray-800">
+            <Card className="bg-white border-gray-200">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-white">Service Management</CardTitle>
+                  <CardTitle className="text-gray-900">Service Management</CardTitle>
                   <Button className="bg-red-600 hover:bg-red-700">
                     <Plus className="w-4 h-4 mr-2" />
                     Add Service Provider
@@ -483,36 +483,36 @@ export default function AdminDashboard() {
               <CardContent>
                 <Table>
                   <TableHeader>
-                    <TableRow className="border-gray-800">
-                      <TableHead className="text-gray-400">Service</TableHead>
-                      <TableHead className="text-gray-400">Provider</TableHead>
-                      <TableHead className="text-gray-400">Bookings</TableHead>
-                      <TableHead className="text-gray-400">Revenue</TableHead>
-                      <TableHead className="text-gray-400">Rating</TableHead>
-                      <TableHead className="text-gray-400">Status</TableHead>
-                      <TableHead className="text-gray-400">Actions</TableHead>
+                    <TableRow className="border-gray-200">
+                      <TableHead className="text-gray-600">Service</TableHead>
+                      <TableHead className="text-gray-600">Provider</TableHead>
+                      <TableHead className="text-gray-600">Bookings</TableHead>
+                      <TableHead className="text-gray-600">Revenue</TableHead>
+                      <TableHead className="text-gray-600">Rating</TableHead>
+                      <TableHead className="text-gray-600">Status</TableHead>
+                      <TableHead className="text-gray-600">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {services.map((service) => (
-                      <TableRow key={service.id} className="border-gray-800">
-                        <TableCell className="text-white font-medium">{service.name}</TableCell>
-                        <TableCell className="text-gray-300">{service.provider}</TableCell>
-                        <TableCell className="text-gray-300">{service.bookings}</TableCell>
-                        <TableCell className="text-green-400 font-semibold">{service.revenue}</TableCell>
-                        <TableCell className="text-gray-300">{service.rating}</TableCell>
+                      <TableRow key={service.id} className="border-gray-200">
+                        <TableCell className="text-gray-900 font-medium">{service.name}</TableCell>
+                        <TableCell className="text-gray-700">{service.provider}</TableCell>
+                        <TableCell className="text-gray-700">{service.bookings}</TableCell>
+                        <TableCell className="text-green-600 font-semibold">{service.revenue}</TableCell>
+                        <TableCell className="text-gray-700">{service.rating}</TableCell>
                         <TableCell>
                           <Badge className={getStatusColor(service.status)}>{service.status}</Badge>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+                            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
                               <Eye className="w-4 h-4" />
                             </Button>
-                            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+                            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-gray-900">
                               <Edit className="w-4 h-4" />
                             </Button>
-                            <Button variant="ghost" size="sm" className="text-gray-400 hover:text-red-400">
+                            <Button variant="ghost" size="sm" className="text-gray-600 hover:text-red-600">
                               <Trash2 className="w-4 h-4" />
                             </Button>
                           </div>
@@ -528,9 +528,9 @@ export default function AdminDashboard() {
           {/* Analytics Tab */}
           <TabsContent value="analytics" className="space-y-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className="bg-white border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-white flex items-center">
+                  <CardTitle className="text-gray-900 flex items-center">
                     <BarChart3 className="w-5 h-5 mr-2" />
                     Revenue Analytics
                   </CardTitle>
@@ -538,24 +538,24 @@ export default function AdminDashboard() {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">This Month</span>
-                      <span className="text-2xl font-bold text-green-400">$45,230</span>
+                      <span className="text-gray-600">This Month</span>
+                      <span className="text-2xl font-bold text-green-600">$45,230</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Last Month</span>
-                      <span className="text-xl font-semibold text-gray-300">$38,450</span>
+                      <span className="text-gray-600">Last Month</span>
+                      <span className="text-xl font-semibold text-gray-700">$38,450</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Growth</span>
-                      <span className="text-lg font-semibold text-green-400">+17.6%</span>
+                      <span className="text-gray-600">Growth</span>
+                      <span className="text-lg font-semibold text-green-600">+17.6%</span>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
-              <Card className="bg-gray-900 border-gray-800">
+              <Card className="bg-white border-gray-200">
                 <CardHeader>
-                  <CardTitle className="text-white flex items-center">
+                  <CardTitle className="text-gray-900 flex items-center">
                     <TrendingUp className="w-5 h-5 mr-2" />
                     Performance Metrics
                   </CardTitle>
@@ -563,16 +563,16 @@ export default function AdminDashboard() {
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Average Occupancy</span>
-                      <span className="text-2xl font-bold text-blue-400">86%</span>
+                      <span className="text-gray-600">Average Occupancy</span>
+                      <span className="text-2xl font-bold text-blue-600">86%</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Average Rating</span>
-                      <span className="text-xl font-semibold text-yellow-400">4.8</span>
+                      <span className="text-gray-600">Average Rating</span>
+                      <span className="text-xl font-semibold text-yellow-600">4.8</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Repeat Customers</span>
-                      <span className="text-lg font-semibold text-purple-400">34%</span>
+                      <span className="text-gray-600">Repeat Customers</span>
+                      <span className="text-lg font-semibold text-purple-600">34%</span>
                     </div>
                   </div>
                 </CardContent>

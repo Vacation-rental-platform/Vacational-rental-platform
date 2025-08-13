@@ -177,12 +177,12 @@ export default function PropertiesPage() {
   const types = ["all", ...new Set(allProperties.map((p) => p.type))]
 
   return (
-    <div className="min-h-screen bg-black text-white pt-16">
+    <div className="min-h-screen beach-sand-bg text-gray-900 pt-16">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <h1 className="text-4xl font-bold mb-4">Premium Properties</h1>
-          <p className="text-xl text-gray-300">Discover luxury vacation rentals across 15 states</p>
+          <h1 className="text-4xl font-bold mb-4 text-gray-900">Premium Properties</h1>
+          <p className="text-xl text-gray-700">Discover luxury vacation rentals across 15 states</p>
         </motion.div>
 
         {/* Filters */}
@@ -194,20 +194,20 @@ export default function PropertiesPage() {
         >
           <div className="flex flex-col lg:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 w-5 h-5" />
               <Input
                 placeholder="Search properties or locations..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 bg-gray-900 border-gray-700 text-white"
+                className="pl-10 bg-white border-gray-300 text-gray-900 placeholder:text-gray-500"
               />
             </div>
 
             <Select value={selectedCity} onValueChange={setSelectedCity}>
-              <SelectTrigger className="w-full lg:w-48 bg-gray-900 border-gray-700">
+              <SelectTrigger className="w-full lg:w-48 bg-white border-gray-300">
                 <SelectValue placeholder="Select City" />
               </SelectTrigger>
-              <SelectContent className="bg-gray-900 border-gray-700">
+              <SelectContent className="bg-white border-gray-300">
                 {cities.map((city) => (
                   <SelectItem key={city} value={city}>
                     {city === "all" ? "All Cities" : city}
@@ -217,10 +217,10 @@ export default function PropertiesPage() {
             </Select>
 
             <Select value={selectedType} onValueChange={setSelectedType}>
-              <SelectTrigger className="w-full lg:w-48 bg-gray-900 border-gray-700">
+              <SelectTrigger className="w-full lg:w-48 bg-white border-gray-300">
                 <SelectValue placeholder="Property Type" />
               </SelectTrigger>
-              <SelectContent className="bg-gray-900 border-gray-700">
+              <SelectContent className="bg-white border-gray-300">
                 {types.map((type) => (
                   <SelectItem key={type} value={type}>
                     {type === "all" ? "All Types" : type}
@@ -230,10 +230,10 @@ export default function PropertiesPage() {
             </Select>
 
             <Select value={sortBy} onValueChange={setSortBy}>
-              <SelectTrigger className="w-full lg:w-48 bg-gray-900 border-gray-700">
+              <SelectTrigger className="w-full lg:w-48 bg-white border-gray-300">
                 <SelectValue placeholder="Sort By" />
               </SelectTrigger>
-              <SelectContent className="bg-gray-900 border-gray-700">
+              <SelectContent className="bg-white border-gray-300">
                 <SelectItem value="popular">Most Popular</SelectItem>
                 <SelectItem value="rating">Highest Rated</SelectItem>
                 <SelectItem value="price-low">Price: Low to High</SelectItem>
@@ -244,7 +244,7 @@ export default function PropertiesPage() {
 
           <div className="flex flex-col lg:flex-row gap-4 items-center">
             <div className="flex-1">
-              <label className="block text-sm font-medium mb-2">
+              <label className="block text-sm font-medium mb-2 text-gray-700">
                 Price Range: ${priceRange[0]} - ${priceRange[1]}
               </label>
               <Slider
@@ -258,10 +258,10 @@ export default function PropertiesPage() {
             </div>
 
             <Select value={guestCount} onValueChange={setGuestCount}>
-              <SelectTrigger className="w-full lg:w-48 bg-gray-900 border-gray-700">
+              <SelectTrigger className="w-full lg:w-48 bg-white border-gray-300">
                 <SelectValue placeholder="Guests" />
               </SelectTrigger>
-              <SelectContent className="bg-gray-900 border-gray-700">
+              <SelectContent className="bg-white border-gray-300">
                 <SelectItem value="all">Any Guests</SelectItem>
                 <SelectItem value="2">2+ Guests</SelectItem>
                 <SelectItem value="4">4+ Guests</SelectItem>
@@ -274,7 +274,7 @@ export default function PropertiesPage() {
 
         {/* Results Count */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} className="mb-6">
-          <p className="text-gray-400">
+          <p className="text-gray-600">
             Showing {filteredProperties.length} of {allProperties.length} properties
           </p>
         </motion.div>
@@ -291,7 +291,7 @@ export default function PropertiesPage() {
               className="group"
             >
               <Link href={`/property/${property.id}`}>
-                <Card className="bg-gray-900 border-gray-800 hover:border-red-600 transition-all duration-300 overflow-hidden">
+                <Card className="bg-white border-gray-200 hover:border-red-400 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-lg">
                   <div className="relative h-64 overflow-hidden">
                     <img
                       src={property.image || "/placeholder.svg"}
@@ -312,21 +312,21 @@ export default function PropertiesPage() {
 
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-2">
-                      <h3 className="text-xl font-semibold text-white group-hover:text-red-600 transition-colors">
+                      <h3 className="text-xl font-semibold text-gray-900 group-hover:text-red-600 transition-colors">
                         {property.title}
                       </h3>
                       <p className="text-2xl font-bold text-red-600">
                         ${property.price}
-                        <span className="text-sm text-gray-400 font-normal">/night</span>
+                        <span className="text-sm text-gray-500 font-normal">/night</span>
                       </p>
                     </div>
 
-                    <p className="text-gray-400 mb-4 flex items-center">
+                    <p className="text-gray-600 mb-4 flex items-center">
                       <MapPin className="w-4 h-4 mr-1" />
                       {property.location}
                     </p>
 
-                    <div className="flex items-center gap-4 text-sm text-gray-400 mb-4">
+                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
                       <span className="flex items-center">
                         <Users className="w-4 h-4 mr-1" />
                         {property.guests} guests
@@ -343,19 +343,19 @@ export default function PropertiesPage() {
 
                     <div className="flex flex-wrap gap-2 mb-4">
                       {property.amenities.slice(0, 3).map((amenity) => (
-                        <Badge key={amenity} variant="secondary" className="bg-gray-800 text-gray-300">
+                        <Badge key={amenity} variant="secondary" className="bg-gray-100 text-gray-700">
                           {amenity}
                         </Badge>
                       ))}
                       {property.amenities.length > 3 && (
-                        <Badge variant="secondary" className="bg-gray-800 text-gray-300">
+                        <Badge variant="secondary" className="bg-gray-100 text-gray-700">
                           +{property.amenities.length - 3} more
                         </Badge>
                       )}
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-400">{property.reviews} reviews</span>
+                      <span className="text-sm text-gray-600">{property.reviews} reviews</span>
                       <Button size="sm" className="bg-red-600 hover:bg-red-700">
                         View Details
                       </Button>
@@ -370,8 +370,8 @@ export default function PropertiesPage() {
         {/* No Results */}
         {filteredProperties.length === 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
-            <h3 className="text-2xl font-semibold mb-4">No properties found</h3>
-            <p className="text-gray-400 mb-6">Try adjusting your filters to see more results</p>
+            <h3 className="text-2xl font-semibold mb-4 text-gray-900">No properties found</h3>
+            <p className="text-gray-600 mb-6">Try adjusting your filters to see more results</p>
             <Button
               onClick={() => {
                 setSearchQuery("")

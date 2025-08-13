@@ -27,6 +27,7 @@ const allServices = [
     availability: "Available today",
     location: "Miami, Florida",
     features: ["3-course meal", "Wine pairing", "Grocery shopping included", "Clean-up service"],
+    bookingLink: "https://www.stayvy.co/chef-marco-rossi",
   },
   {
     id: "massage-1",
@@ -42,6 +43,7 @@ const allServices = [
     availability: "Available tomorrow",
     location: "Miami, Florida",
     features: ["Licensed therapists", "Organic oils", "Relaxing music", "Aromatherapy"],
+    bookingLink: "https://www.stayvy.co/serenity-spa",
   },
   {
     id: "car-1",
@@ -57,6 +59,7 @@ const allServices = [
     availability: "Available now",
     location: "Miami, Florida",
     features: ["Full insurance", "24/7 support", "Free delivery", "GPS included"],
+    bookingLink: "https://www.stayvy.co/elite-auto",
   },
   {
     id: "tour-1",
@@ -72,6 +75,7 @@ const allServices = [
     availability: "Available today",
     location: "Miami, Florida",
     features: ["Expert guide", "Small groups", "Photo stops", "Historical insights"],
+    bookingLink: "https://www.stayvy.co/miami-heritage",
   },
   {
     id: "cleaning-1",
@@ -87,6 +91,7 @@ const allServices = [
     availability: "Available today",
     location: "Miami, Florida",
     features: ["Eco-friendly products", "Bonded staff", "Same-day service", "Satisfaction guarantee"],
+    bookingLink: "https://www.stayvy.co/pristine-home",
   },
   {
     id: "yacht-1",
@@ -102,6 +107,7 @@ const allServices = [
     availability: "Available this weekend",
     location: "Miami, Florida",
     features: ["Professional crew", "Catering available", "Water sports", "Sunset cruise"],
+    bookingLink: "https://www.stayvy.co/ocean-elite",
   },
   {
     id: "barber-1",
@@ -117,6 +123,7 @@ const allServices = [
     availability: "Available today",
     location: "Miami, Florida",
     features: ["Hot towel treatment", "Beard trim", "Hair wash", "Premium products"],
+    bookingLink: "https://www.stayvy.co/gentlemans-cut",
   },
   {
     id: "wine-1",
@@ -132,6 +139,7 @@ const allServices = [
     availability: "Available tomorrow",
     location: "Miami, Florida",
     features: ["Certified sommelier", "6 wine selection", "Cheese pairing", "Educational experience"],
+    bookingLink: "https://www.stayvy.co/sommelier-select",
   },
 ]
 
@@ -302,7 +310,11 @@ export default function ServicesPage() {
                       <Button size="sm" variant="outline" className="border-border bg-transparent">
                         <MessageSquare className="w-4 h-4" />
                       </Button>
-                      <Button size="sm" className="bg-red-600 hover:bg-red-700">
+                      <Button
+                        size="sm"
+                        className="bg-red-600 hover:bg-red-700"
+                        onClick={() => window.open(service.bookingLink, "_blank")}
+                      >
                         Book Now
                       </Button>
                     </div>

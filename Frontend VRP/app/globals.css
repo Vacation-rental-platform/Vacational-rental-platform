@@ -4,158 +4,266 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-    --radius: 0.5rem;
-  }
-
-  .light {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
+    /* Beach Sand Color Scheme */
+    --beach-sand-bg: 45 25% 92%;
+    --beach-sand-light: 45 30% 95%;
+    --beach-sand-card: 0 0% 100%;
+    --beach-sand-border: 45 15% 85%;
+    --beach-sand-text: 222.2 84% 4.9%;
   }
 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
-  }
-
-  /* Ensure consistent dark theme */
-  html {
-    color-scheme: dark;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-muted;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-muted-foreground/30 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-muted-foreground/50;
-  }
-
-  /* Smooth scrolling */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Prevent layout shift */
-  img {
-    max-width: 100%;
-    height: auto;
   }
 }
 
-@layer components {
-  .netflix-card {
-    @apply relative overflow-hidden rounded-lg bg-card transition-all duration-300 hover:scale-105 hover:z-10;
-  }
+/* Beach Sand Theme Classes */
+.beach-sand-bg {
+  background-color: hsl(var(--beach-sand-bg));
+  position: relative;
+  overflow: hidden;
+}
 
-  .netflix-card:hover {
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-  }
+.beach-sand-light {
+  background-color: hsl(var(--beach-sand-light));
+  position: relative;
+  overflow: hidden;
+}
 
-  .gradient-overlay {
-    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
-  }
+/* Beach Decorative Elements */
+.beach-sand-bg::before,
+.beach-sand-light::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.15;
+  /* Beach Balls */
+  background-image:
+    radial-gradient(circle at 15% 20%, #ff6b6b 8px, transparent 8px),
+    radial-gradient(circle at 15% 20%, #4ecdc4 6px, transparent 6px),
+    radial-gradient(circle at 15% 20%, #ffe66d 4px, transparent 4px),
+    radial-gradient(circle at 85% 30%, #ff6b6b 10px, transparent 10px),
+    radial-gradient(circle at 85% 30%, #4ecdc4 8px, transparent 8px),
+    radial-gradient(circle at 85% 30%, #ffe66d 6px, transparent 6px),
+    radial-gradient(circle at 25% 70%, #ff6b6b 6px, transparent 6px),
+    radial-gradient(circle at 25% 70%, #4ecdc4 4px, transparent 4px),
+    radial-gradient(circle at 25% 70%, #ffe66d 2px, transparent 2px),
+    radial-gradient(circle at 75% 80%, #ff6b6b 12px, transparent 12px),
+    radial-gradient(circle at 75% 80%, #4ecdc4 10px, transparent 10px),
+    radial-gradient(circle at 75% 80%, #ffe66d 8px, transparent 8px),
+    /* Beach Umbrellas */
+    radial-gradient(ellipse 40px 20px at 10% 40%, #ff6b6b, transparent),
+    radial-gradient(ellipse 35px 18px at 10% 40%, #ffe66d, transparent),
+    radial-gradient(ellipse 45px 22px at 90% 60%, #4ecdc4, transparent),
+    radial-gradient(ellipse 40px 20px at 90% 60%, #ff6b6b, transparent),
+    radial-gradient(ellipse 30px 15px at 60% 25%, #ffe66d, transparent),
+    radial-gradient(ellipse 25px 12px at 60% 25%, #4ecdc4, transparent),
+    /* Beach Tents */
+    polygon(5% 90%, 15% 70%, 25% 90%),
+    polygon(70% 85%, 80% 65%, 90% 85%),
+    polygon(40% 95%, 50% 75%, 60% 95%);
 
-  /* Line clamp utility */
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  background-size:
+    200px 200px, 200px 200px, 200px 200px,
+    250px 250px, 250px 250px, 250px 250px,
+    180px 180px, 180px 180px, 180px 180px,
+    300px 300px, 300px 300px, 300px 300px,
+    150px 100px, 150px 100px,
+    200px 120px, 200px 120px,
+    120px 80px, 120px 80px,
+    100px 50px, 100px 50px, 100px 50px;
+
+  background-repeat: no-repeat;
+  animation: beachFloat 20s ease-in-out infinite;
+}
+
+.beach-sand-light::before {
+  opacity: 0.1;
+  /* Different positioned beach elements for variety */
+  background-image: radial-gradient(circle at 20% 15%, #ff6b6b 6px, transparent 6px),
+    radial-gradient(circle at 20% 15%, #4ecdc4 4px, transparent 4px),
+    radial-gradient(circle at 80% 25%, #ffe66d 8px, transparent 8px),
+    radial-gradient(circle at 80% 25%, #ff6b6b 6px, transparent 6px),
+    radial-gradient(circle at 30% 75%, #4ecdc4 10px, transparent 10px),
+    radial-gradient(circle at 30% 75%, #ffe66d 8px, transparent 8px),
+    radial-gradient(circle at 70% 85%, #ff6b6b 7px, transparent 7px),
+    radial-gradient(circle at 70% 85%, #4ecdc4 5px, transparent 5px), /* Umbrellas */
+    radial-gradient(ellipse 35px 18px at 15% 50%, #4ecdc4, transparent),
+    radial-gradient(ellipse 30px 15px at 15% 50%, #ffe66d, transparent),
+    radial-gradient(ellipse 40px 20px at 85% 70%, #ff6b6b, transparent),
+    radial-gradient(ellipse 35px 18px at 85% 70%, #4ecdc4, transparent);
+
+  background-size: 180px 180px, 180px 180px, 220px 220px, 220px 220px, 200px 200px, 200px 200px, 160px 160px, 160px
+    160px, 140px 90px, 140px 90px, 180px 110px, 180px 110px;
+}
+
+@keyframes beachFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-3px) rotate(-1deg);
   }
 }
 
-@layer utilities {
-  /* Custom animations */
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+/* Ensure content stays above decorative elements */
+.beach-sand-bg > *,
+.beach-sand-light > * {
+  position: relative;
+  z-index: 1;
+}
 
-  .animate-fadeInUp {
-    animation: fadeInUp 0.6s ease-out;
-  }
+/* Additional beach-themed decorative elements for specific sections */
+.beach-services-bg {
+  position: relative;
+}
 
-  /* Loading spinner */
-  .loading-spinner {
-    border: 2px solid hsl(var(--muted));
-    border-top: 2px solid #ef4444;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-  }
+.beach-services-bg::after {
+  content: "🏖️";
+  position: absolute;
+  top: 10%;
+  right: 5%;
+  font-size: 2rem;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+  animation: beachFloat 15s ease-in-out infinite;
+}
 
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+.beach-stats-bg {
+  position: relative;
+}
+
+.beach-stats-bg::after {
+  content: "🌊";
+  position: absolute;
+  bottom: 10%;
+  left: 5%;
+  font-size: 2.5rem;
+  opacity: 0.1;
+  pointer-events: none;
+  z-index: 0;
+  animation: beachFloat 18s ease-in-out infinite reverse;
+}
+
+/* Utility classes for main and lighter backgrounds */
+.main-bg {
+  background-color: hsl(var(--beach-sand-bg));
+}
+
+.light-bg {
+  background-color: hsl(var(--beach-sand-light));
+}
+
+/* Floating animation for interactive elements */
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
   }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Subtle hover effects for cards */
+.beach-card-hover {
+  transition: all 0.3s ease;
+}
+
+.beach-card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom scrollbar for beach theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--beach-sand-light));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--beach-sand-border));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff385c;
 }

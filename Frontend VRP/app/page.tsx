@@ -2,11 +2,12 @@
 
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Search, MapPin, Users, Star, ChevronRight, Play, ArrowRight, ChevronLeft } from "lucide-react"
+import { Search, MapPin, Users, Star, ChevronRight, ArrowRight, Calendar, ChevronLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 
 const heroImages = [
@@ -128,6 +129,7 @@ const featuredProperties = [
     guests: 8,
     bedrooms: 4,
     bathrooms: 3,
+    favorite: true,
   },
   {
     id: 2,
@@ -141,6 +143,7 @@ const featuredProperties = [
     guests: 6,
     bedrooms: 3,
     bathrooms: 2,
+    favorite: false,
   },
   {
     id: 3,
@@ -154,6 +157,7 @@ const featuredProperties = [
     guests: 4,
     bedrooms: 2,
     bathrooms: 2,
+    favorite: true,
   },
   {
     id: 4,
@@ -167,6 +171,7 @@ const featuredProperties = [
     guests: 10,
     bedrooms: 5,
     bathrooms: 4,
+    favorite: false,
   },
   {
     id: 5,
@@ -180,6 +185,7 @@ const featuredProperties = [
     guests: 12,
     bedrooms: 6,
     bathrooms: 5,
+    favorite: true,
   },
   {
     id: 6,
@@ -193,11 +199,15 @@ const featuredProperties = [
     guests: 8,
     bedrooms: 4,
     bathrooms: 3,
+    favorite: false,
   },
 ]
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("")
+  const [checkIn, setCheckIn] = useState("")
+  const [checkOut, setCheckOut] = useState("")
+  const [guests, setGuests] = useState("2")
   const [hoveredProperty, setHoveredProperty] = useState<number | null>(null)
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
@@ -208,7 +218,7 @@ export default function HomePage() {
 
     const interval = setInterval(() => {
       setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length)
-    }, 5000)
+    }, 6000)
 
     return () => clearInterval(interval)
   }, [isAutoPlaying])
@@ -216,26 +226,27 @@ export default function HomePage() {
   const nextHeroImage = () => {
     setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length)
     setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 10000)
+    setTimeout(() => setIsAutoPlaying(true), 15000)
   }
 
   const prevHeroImage = () => {
     setCurrentHeroIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length)
     setIsAutoPlaying(false)
-    setTimeout(() => setIsAutoPlaying(true), 10000)
+    setTimeout(() => setIsAutoPlaying(true), 15000)
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      {/* Hero Section with Rotating Background */}
-      <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <div className="min-h-screen text-gray-900">
+      {/* Hero Section with Rotating Background and Search */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        {/* Rotating Background Images */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentHeroIndex}
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
+            transition={{ duration: 2, ease: "easeInOut" }}
             className="absolute inset-0 z-0"
           >
             <img
@@ -245,151 +256,194 @@ export default function HomePage() {
               crossOrigin="anonymous"
               loading="eager"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+            {/* Subtle overlay to ensure text readability */}
+            <div className="absolute inset-0 bg-white/60 backdrop-blur-[1px]" />
           </motion.div>
         </AnimatePresence>
 
         {/* Hero Navigation */}
         <button
           onClick={prevHeroImage}
-          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/30 hover:bg-black/50 transition-all duration-300 backdrop-blur-sm"
+          className="absolute left-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 backdrop-blur-sm"
         >
-          <ChevronLeft className="w-6 h-6 text-white" />
+          <ChevronLeft className="w-6 h-6 text-gray-800" />
         </button>
 
         <button
           onClick={nextHeroImage}
-          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-black/30 hover:bg-black/50 transition-all duration-300 backdrop-blur-sm"
+          className="absolute right-6 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/20 hover:bg-white/30 transition-all duration-300 backdrop-blur-sm"
         >
-          <ChevronRight className="w-6 h-6 text-white" />
+          <ChevronRight className="w-6 h-6 text-gray-800" />
         </button>
 
         {/* Hero Content */}
-        <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4">
+          {/* Main Heading */}
           <motion.div
-            key={`content-${currentHeroIndex}`}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 text-gray-900">Find your perfect stay</h1>
+            <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto">
+              Search premium vacation rentals, luxury homes and unique experiences across 15 states
+            </p>
+          </motion.div>
+
+          {/* Search Bar - Booking.com/Airbnb Style */}
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
+            className="max-w-5xl mx-auto"
           >
-            <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
-              {heroImages[currentHeroIndex].title}
-            </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-200">{heroImages[currentHeroIndex].subtitle}</p>
+            <Card className="bg-white/95 backdrop-blur-sm border-2 border-gray-200 shadow-xl hover:shadow-2xl transition-all duration-300">
+              <CardContent className="p-2">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
+                  {/* Where */}
+                  <div className="relative group">
+                    <div className="p-4 rounded-lg hover:bg-gray-50/80 transition-colors cursor-pointer">
+                      <label className="block text-xs font-semibold text-gray-900 mb-1">Where</label>
+                      <div className="flex items-center">
+                        <MapPin className="w-4 h-4 text-gray-400 mr-2" />
+                        <Input
+                          placeholder="Search destinations"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="border-0 p-0 text-gray-900 placeholder:text-gray-500 focus-visible:ring-0 bg-transparent"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Check in */}
+                  <div className="relative group border-l border-gray-200">
+                    <div className="p-4 rounded-lg hover:bg-gray-50/80 transition-colors cursor-pointer">
+                      <label className="block text-xs font-semibold text-gray-900 mb-1">Check in</label>
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 text-gray-400 mr-2" />
+                        <Input
+                          type="date"
+                          value={checkIn}
+                          onChange={(e) => setCheckIn(e.target.value)}
+                          className="border-0 p-0 text-gray-900 focus-visible:ring-0 bg-transparent"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Check out */}
+                  <div className="relative group border-l border-gray-200">
+                    <div className="p-4 rounded-lg hover:bg-gray-50/80 transition-colors cursor-pointer">
+                      <label className="block text-xs font-semibold text-gray-900 mb-1">Check out</label>
+                      <div className="flex items-center">
+                        <Calendar className="w-4 h-4 text-gray-400 mr-2" />
+                        <Input
+                          type="date"
+                          value={checkOut}
+                          onChange={(e) => setCheckOut(e.target.value)}
+                          className="border-0 p-0 text-gray-900 focus-visible:ring-0 bg-transparent"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Who */}
+                  <div className="relative group border-l border-gray-200">
+                    <div className="p-4 rounded-lg hover:bg-gray-50/80 transition-colors cursor-pointer flex items-center justify-between">
+                      <div className="flex-1">
+                        <label className="block text-xs font-semibold text-gray-900 mb-1">Who</label>
+                        <div className="flex items-center">
+                          <Users className="w-4 h-4 text-gray-400 mr-2" />
+                          <Select value={guests} onValueChange={setGuests}>
+                            <SelectTrigger className="border-0 p-0 text-gray-900 focus:ring-0 bg-transparent">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="1">1 guest</SelectItem>
+                              <SelectItem value="2">2 guests</SelectItem>
+                              <SelectItem value="3">3 guests</SelectItem>
+                              <SelectItem value="4">4 guests</SelectItem>
+                              <SelectItem value="5">5+ guests</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                      <Link href="/properties">
+                        <Button className="bg-[#FF385C] hover:bg-[#E31C5F] text-white rounded-full w-12 h-12 p-0 ml-2 shadow-lg">
+                          <Search className="w-5 h-5" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </motion.div>
 
+          {/* Quick Filters */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto mb-8"
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="flex flex-wrap justify-center gap-3 mt-8"
           >
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <Input
-                placeholder="Where do you want to go?"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-14 bg-white/10 border-white/20 text-white placeholder:text-gray-300 backdrop-blur-sm focus:bg-white/20 transition-all duration-300"
-              />
-            </div>
-            <Link href="/properties">
+            {["Beach", "Mountains", "City", "Desert", "Lake"].map((filter) => (
               <Button
-                size="lg"
-                className="h-14 px-8 bg-red-600 hover:bg-red-700 text-white transform hover:scale-105 transition-all duration-300"
+                key={filter}
+                variant="outline"
+                className="rounded-full border-gray-300 text-gray-700 hover:bg-white/90 bg-white/80 backdrop-blur-sm shadow-sm"
               >
-                <Play className="w-5 h-5 mr-2" />
-                Explore Now
+                {filter}
               </Button>
-            </Link>
+            ))}
           </motion.div>
 
           {/* Hero Indicators */}
-          <div className="flex justify-center space-x-2">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="flex justify-center space-x-2 mt-12"
+          >
             {heroImages.map((_, index) => (
               <button
                 key={index}
                 onClick={() => {
                   setCurrentHeroIndex(index)
                   setIsAutoPlaying(false)
-                  setTimeout(() => setIsAutoPlaying(true), 10000)
+                  setTimeout(() => setIsAutoPlaying(true), 15000)
                 }}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                  index === currentHeroIndex ? "bg-red-600 scale-125" : "bg-white/40 hover:bg-white/60"
+                  index === currentHeroIndex ? "bg-[#FF385C] scale-125" : "bg-white/60 hover:bg-white/80"
                 }`}
               />
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Cities Section */}
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-bold mb-8"
-          >
-            Explore Top Destinations
-          </motion.h2>
-
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            {cities.map((city, index) => (
-              <motion.div
-                key={city.name}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="relative group cursor-pointer"
-              >
-                <Link href={`/properties?city=${city.name}`}>
-                  <Card className="bg-card border-border hover:border-red-600 transition-all duration-300 overflow-hidden">
-                    <div className="relative h-32 overflow-hidden">
-                      <img
-                        src={city.image || "/placeholder.svg"}
-                        alt={city.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                        crossOrigin="anonymous"
-                        loading="lazy"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                      <div className="absolute bottom-2 left-2">
-                        <h3 className="font-semibold text-white text-sm">{city.name}</h3>
-                        <p className="text-xs text-gray-300">{city.properties} properties</p>
-                      </div>
-                      <div className="absolute inset-0 bg-red-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </div>
-                  </Card>
-                </Link>
-              </motion.div>
-            ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Featured Properties */}
-      <section className="py-16 px-4 bg-muted/50">
+      <section className="py-16 px-4 beach-sand-bg">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="text-3xl md:text-4xl font-bold"
+              className="text-3xl md:text-4xl font-bold text-gray-900"
             >
-              Featured Properties
+              Popular homes in United States
             </motion.h2>
             <Link href="/properties">
-              <Button variant="ghost" className="text-red-600 hover:text-red-500 hover:bg-red-600/10">
-                View All <ChevronRight className="w-4 h-4 ml-1" />
+              <Button variant="ghost" className="text-[#FF385C] hover:text-[#E31C5F] hover:bg-[#FF385C]/10">
+                View all <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
             {featuredProperties.map((property, index) => (
               <motion.div
                 key={property.id}
@@ -398,88 +452,102 @@ export default function HomePage() {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
                 onHoverStart={() => setHoveredProperty(property.id)}
                 onHoverEnd={() => setHoveredProperty(null)}
-                whileHover={{ y: -8 }}
                 className="group cursor-pointer"
               >
                 <Link href={`/property/${property.id}`}>
-                  <Card className="bg-card border-border hover:border-red-600 transition-all duration-300 overflow-hidden">
-                    <div className="relative h-64 overflow-hidden">
+                  <div className="space-y-3">
+                    <div className="relative h-64 overflow-hidden rounded-xl">
                       <img
                         src={property.image || "/placeholder.svg"}
                         alt={property.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         crossOrigin="anonymous"
                         loading="lazy"
                       />
-                      <div className="absolute top-4 right-4">
-                        <Badge className="bg-black/70 text-white backdrop-blur-sm">
-                          <Star className="w-3 h-3 mr-1 fill-yellow-400 text-yellow-400" />
-                          {property.rating}
-                        </Badge>
-                      </div>
-                      <AnimatePresence>
-                        {hoveredProperty === property.id && (
-                          <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-sm"
+                      <div className="absolute top-3 right-3">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="w-8 h-8 p-0 bg-white/80 hover:bg-white rounded-full"
+                        >
+                          <svg
+                            className={`w-4 h-4 ${property.favorite ? "fill-red-500 text-red-500" : "text-gray-600"}`}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
                           >
-                            <Button
-                              size="sm"
-                              className="bg-red-600 hover:bg-red-700 transform hover:scale-105 transition-all duration-300"
-                            >
-                              <Play className="w-4 h-4 mr-2" />
-                              Quick View
-                            </Button>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                          </svg>
+                        </Button>
+                      </div>
+                      <div className="absolute top-3 left-3">
+                        <Badge className="bg-white/90 text-gray-900 text-xs">Guest favourite</Badge>
+                      </div>
                     </div>
 
-                    <CardContent className="p-6">
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="text-xl font-semibold group-hover:text-red-600 transition-colors">
-                          {property.title}
-                        </h3>
-                        <p className="text-2xl font-bold text-red-600">
-                          ${property.price}
-                          <span className="text-sm text-muted-foreground font-normal">/night</span>
-                        </p>
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <h3 className="font-semibold text-gray-900 truncate">{property.title}</h3>
+                        <div className="flex items-center">
+                          <Star className="w-4 h-4 fill-current text-gray-900" />
+                          <span className="text-sm text-gray-900 ml-1">{property.rating}</span>
+                        </div>
                       </div>
-
-                      <p className="text-muted-foreground mb-4 flex items-center">
-                        <MapPin className="w-4 h-4 mr-1" />
-                        {property.location}
+                      <p className="text-gray-600 text-sm">{property.location}</p>
+                      <p className="text-gray-600 text-sm">
+                        {property.bedrooms} bed · {property.bathrooms} bath
                       </p>
-
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-4">
-                        <span className="flex items-center">
-                          <Users className="w-4 h-4 mr-1" />
-                          {property.guests} guests
-                        </span>
-                        <span>{property.bedrooms} bed</span>
-                        <span>{property.bathrooms} bath</span>
+                      <div className="flex items-baseline">
+                        <span className="font-semibold text-gray-900">${property.price}</span>
+                        <span className="text-gray-600 text-sm ml-1">night</span>
                       </div>
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                      <div className="flex flex-wrap gap-2">
-                        {property.amenities.slice(0, 3).map((amenity) => (
-                          <Badge
-                            key={amenity}
-                            variant="secondary"
-                            className="bg-muted text-muted-foreground hover:bg-muted/80 transition-colors"
-                          >
-                            {amenity}
-                          </Badge>
-                        ))}
-                        {property.amenities.length > 3 && (
-                          <Badge variant="secondary" className="bg-muted text-muted-foreground">
-                            +{property.amenities.length - 3} more
-                          </Badge>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
+      {/* Cities Section */}
+      <section className="py-16 px-4 beach-sand-light">
+        <div className="max-w-7xl mx-auto">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-3xl md:text-4xl font-bold mb-8 text-gray-900"
+          >
+            Explore destinations
+          </motion.h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+            {cities.slice(0, 10).map((city, index) => (
+              <motion.div
+                key={city.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ scale: 1.02 }}
+                className="relative group cursor-pointer"
+              >
+                <Link href={`/properties?city=${city.name}`}>
+                  <div className="relative h-32 overflow-hidden rounded-xl">
+                    <img
+                      src={city.image || "/placeholder.svg"}
+                      alt={city.name}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      crossOrigin="anonymous"
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                    <div className="absolute bottom-3 left-3">
+                      <h3 className="font-semibold text-white text-sm">{city.name}</h3>
+                      <p className="text-xs text-white/80">{city.properties} properties</p>
+                    </div>
+                  </div>
                 </Link>
               </motion.div>
             ))}
@@ -488,25 +556,16 @@ export default function HomePage() {
       </section>
 
       {/* Services Preview */}
-      <section className="py-16 px-4">
-        <div className="max-w-7xl mx-auto text-center">
+      <section className="py-16 px-4 beach-sand-bg beach-services-bg">
+        <div className="max-w-7xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl md:text-4xl font-bold mb-8"
+            className="text-3xl md:text-4xl font-bold mb-8 text-gray-900"
           >
-            Enhance Your Stay
+            Enhance your stay
           </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl text-muted-foreground mb-12 max-w-3xl mx-auto"
-          >
-            Book premium add-on services to make your vacation unforgettable
-          </motion.p>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
@@ -520,14 +579,14 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05, y: -5 }}
-                className="p-6 bg-muted rounded-lg hover:bg-muted/80 transition-all duration-300 cursor-pointer group"
+                whileHover={{ scale: 1.02 }}
+                className="p-6 bg-white rounded-xl hover:shadow-md transition-all duration-300 cursor-pointer group beach-card-hover"
               >
                 <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
                   {service.icon}
                 </div>
-                <h3 className="font-semibold mb-2">{service.name}</h3>
-                <p className="text-red-600 font-semibold">{service.price}</p>
+                <h3 className="font-semibold mb-2 text-gray-900">{service.name}</h3>
+                <p className="text-[#FF385C] font-semibold">{service.price}</p>
               </motion.div>
             ))}
           </div>
@@ -536,14 +595,14 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-12"
+            className="text-center mt-12"
           >
             <Link href="/services">
               <Button
                 size="lg"
-                className="bg-red-600 hover:bg-red-700 text-white px-8 transform hover:scale-105 transition-all duration-300"
+                className="bg-[#FF385C] hover:bg-[#E31C5F] text-white px-8 rounded-full float-animation"
               >
-                Explore All Services
+                Explore all services
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
@@ -552,7 +611,7 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-muted/50">
+      <section className="py-16 px-4 beach-sand-light beach-stats-bg">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
@@ -566,13 +625,12 @@ export default function HomePage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ scale: 1.05 }}
                 className="group"
               >
-                <div className="text-4xl font-bold text-red-600 mb-2 group-hover:text-red-500 transition-colors">
+                <div className="text-4xl font-bold text-[#FF385C] mb-2 group-hover:text-[#E31C5F] transition-colors">
                   {stat.number}
                 </div>
-                <div className="text-muted-foreground">{stat.label}</div>
+                <div className="text-gray-600">{stat.label}</div>
               </motion.div>
             ))}
           </div>

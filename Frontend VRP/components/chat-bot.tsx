@@ -92,7 +92,7 @@ export function ChatBot() {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          className="w-14 h-14 rounded-full bg-red-600 hover:bg-red-700 shadow-lg transition-transform hover:scale-110"
+          className="w-14 h-14 rounded-full bg-[#FF385C] hover:bg-[#E31C5F] text-white shadow-lg transition-transform hover:scale-110"
         >
           {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
         </Button>
@@ -101,8 +101,8 @@ export function ChatBot() {
       {/* Chat Window */}
       {isOpen && (
         <div className="fixed bottom-24 right-6 z-50 w-80 md:w-96">
-          <Card className="bg-card border-border shadow-2xl">
-            <CardHeader className="bg-red-600 text-white rounded-t-lg">
+          <Card className="bg-white border border-gray-200 shadow-2xl">
+            <CardHeader className="bg-[#FF385C] text-white rounded-t-lg">
               <CardTitle className="flex items-center justify-between">
                 <span>Stayvy.co Assistant</span>
                 <div className="flex items-center space-x-2">
@@ -110,7 +110,7 @@ export function ChatBot() {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleLiveSupport("phone")}
-                    className="text-white hover:bg-red-700"
+                    className="text-white hover:bg-[#E31C5F]"
                   >
                     <Phone className="w-4 h-4" />
                   </Button>
@@ -118,7 +118,7 @@ export function ChatBot() {
                     variant="ghost"
                     size="sm"
                     onClick={() => handleLiveSupport("sms")}
-                    className="text-white hover:bg-red-700"
+                    className="text-white hover:bg-[#E31C5F]"
                   >
                     <MessageSquare className="w-4 h-4" />
                   </Button>
@@ -127,13 +127,13 @@ export function ChatBot() {
             </CardHeader>
 
             <CardContent className="p-0">
-              <ScrollArea className="h-80 p-4">
+              <ScrollArea className="h-80 p-4 bg-white">
                 <div className="space-y-4">
                   {messages.map((message) => (
                     <div key={message.id} className={`flex ${message.isBot ? "justify-start" : "justify-end"}`}>
                       <div
                         className={`max-w-[80%] p-3 rounded-lg ${
-                          message.isBot ? "bg-muted text-foreground" : "bg-red-600 text-white"
+                          message.isBot ? "bg-gray-100 text-[#222222]" : "bg-[#FF385C] text-white"
                         }`}
                       >
                         <p className="text-sm">{message.text}</p>
@@ -149,15 +149,15 @@ export function ChatBot() {
 
                   {isTyping && (
                     <div className="flex justify-start">
-                      <div className="bg-muted text-foreground p-3 rounded-lg">
+                      <div className="bg-gray-100 text-[#222222] p-3 rounded-lg">
                         <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
                           <div
-                            className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"
+                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                             style={{ animationDelay: "0.1s" }}
                           ></div>
                           <div
-                            className="w-2 h-2 bg-muted-foreground rounded-full animate-bounce"
+                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
                             style={{ animationDelay: "0.2s" }}
                           ></div>
                         </div>
@@ -167,16 +167,16 @@ export function ChatBot() {
                 </div>
               </ScrollArea>
 
-              <div className="p-4 border-t border-border">
+              <div className="p-4 border-t border-gray-200 bg-white">
                 <div className="flex space-x-2">
                   <Input
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Type your message..."
                     onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                    className="bg-background border-border"
+                    className="bg-white border-gray-200 text-[#222222]"
                   />
-                  <Button onClick={handleSendMessage} size="sm" className="bg-red-600 hover:bg-red-700">
+                  <Button onClick={handleSendMessage} size="sm" className="bg-[#FF385C] hover:bg-[#E31C5F]">
                     <Send className="w-4 h-4" />
                   </Button>
                 </div>

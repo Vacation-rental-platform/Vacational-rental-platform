@@ -16,6 +16,12 @@ import {
   CreditCard,
   Heart,
   Share2,
+  Copy,
+  Facebook,
+  Twitter,
+  Mail,
+  Check,
+  X,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -23,6 +29,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { BookingCalendar } from "@/components/booking-calendar"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useToast } from "@/hooks/use-toast"
 import Link from "next/link"
 
 // Mock property data - in a real app, this would come from an API
@@ -44,11 +53,26 @@ const getPropertyById = (id: string) => {
         "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center",
       ],
       amenities: [
-        { name: "Private Pool", icon: Waves },
-        { name: "Beach Access", icon: MapPin },
-        { name: "WiFi", icon: Wifi },
-        { name: "Full Kitchen", icon: Utensils },
-        { name: "Parking", icon: Car },
+        { name: "Private Pool", included: true, icon: Waves },
+        { name: "Beach Access", included: true, icon: MapPin },
+        { name: "High-Speed WiFi", included: true, icon: Wifi },
+        { name: "Full Kitchen", included: true, icon: Utensils },
+        { name: "Free Parking", included: true, icon: Car },
+        { name: "Air Conditioning", included: true, icon: Check },
+        { name: "Washer & Dryer", included: true, icon: Check },
+        { name: "Beach Equipment", included: true, icon: Check },
+        { name: "24/7 Security", included: true, icon: Check },
+        { name: "Concierge Service", included: false, icon: X },
+        { name: "Daily Housekeeping", included: false, icon: X },
+        { name: "Airport Transfer", included: false, icon: X },
+      ],
+      paidAmenities: [
+        { name: "BBQ Grill Setup", price: 25, description: "Professional BBQ setup with charcoal and utensils" },
+        { name: "Beach Cabana", price: 50, description: "Private beach cabana rental for the day" },
+        { name: "Kayak Rental", price: 35, description: "Single kayak rental per day" },
+        { name: "Bicycle Rental", price: 20, description: "Beach cruiser bicycle rental per day" },
+        { name: "Pool Heating", price: 40, description: "Heated pool service per day" },
+        { name: "Late Checkout", price: 75, description: "Checkout after 2 PM (subject to availability)" },
       ],
       guests: 8,
       bedrooms: 4,
@@ -117,11 +141,25 @@ const getPropertyById = (id: string) => {
         "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&h=600&fit=crop&crop=center",
       ],
       amenities: [
-        { name: "Fireplace", icon: Waves },
-        { name: "Hot Tub", icon: MapPin },
-        { name: "WiFi", icon: Wifi },
-        { name: "Full Kitchen", icon: Utensils },
-        { name: "Parking", icon: Car },
+        { name: "Stone Fireplace", included: true, icon: Waves },
+        { name: "Hot Tub", included: true, icon: MapPin },
+        { name: "High-Speed WiFi", included: true, icon: Wifi },
+        { name: "Full Kitchen", included: true, icon: Utensils },
+        { name: "Free Parking", included: true, icon: Car },
+        { name: "Ski Equipment Storage", included: true, icon: Check },
+        { name: "Mountain Views", included: true, icon: Check },
+        { name: "Heating System", included: true, icon: Check },
+        { name: "Daily Housekeeping", included: false, icon: X },
+        { name: "Ski Lift Tickets", included: false, icon: X },
+        { name: "Equipment Rental", included: false, icon: X },
+      ],
+      paidAmenities: [
+        { name: "BBQ Grill Setup", price: 30, description: "Mountain BBQ setup with propane and utensils" },
+        { name: "Ski Equipment Rental", price: 65, description: "Full ski equipment rental per day" },
+        { name: "Firewood Delivery", price: 25, description: "Premium firewood delivery and setup" },
+        { name: "Snowshoe Rental", price: 20, description: "Snowshoe rental per day" },
+        { name: "Hot Tub Maintenance", price: 35, description: "Daily hot tub cleaning and maintenance" },
+        { name: "Grocery Pre-Stocking", price: 50, description: "Pre-arrival grocery shopping service" },
       ],
       guests: 6,
       bedrooms: 3,
@@ -166,11 +204,24 @@ const getPropertyById = (id: string) => {
         "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop&crop=center",
       ],
       amenities: [
-        { name: "City View", icon: MapPin },
-        { name: "Gym Access", icon: Waves },
-        { name: "WiFi", icon: Wifi },
-        { name: "Full Kitchen", icon: Utensils },
-        { name: "Concierge", icon: Car },
+        { name: "City Views", included: true, icon: MapPin },
+        { name: "Gym Access", included: true, icon: Waves },
+        { name: "High-Speed WiFi", included: true, icon: Wifi },
+        { name: "Full Kitchen", included: true, icon: Utensils },
+        { name: "24/7 Concierge", included: true, icon: Car },
+        { name: "Rooftop Terrace", included: true, icon: Check },
+        { name: "Private Elevator", included: true, icon: Check },
+        { name: "Spa Access", included: false, icon: X },
+        { name: "Valet Parking", included: false, icon: X },
+        { name: "Room Service", included: false, icon: X },
+      ],
+      paidAmenities: [
+        { name: "Valet Parking", price: 45, description: "Premium valet parking service per day" },
+        { name: "Room Service", price: 25, description: "In-room dining service fee" },
+        { name: "Spa Access", price: 75, description: "Full spa and wellness center access" },
+        { name: "Private Chef", price: 200, description: "Personal chef service for dinner" },
+        { name: "Laundry Service", price: 30, description: "Same-day laundry and dry cleaning" },
+        { name: "Airport Transfer", price: 85, description: "Luxury car service to/from airport" },
       ],
       guests: 4,
       bedrooms: 2,
@@ -210,11 +261,24 @@ const getPropertyById = (id: string) => {
       reviews: 156,
       images: ["https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=800&h=600&fit=crop&crop=center"],
       amenities: [
-        { name: "Pool", icon: Waves },
-        { name: "Spa", icon: MapPin },
-        { name: "WiFi", icon: Wifi },
-        { name: "Golf Course", icon: Utensils },
-        { name: "Parking", icon: Car },
+        { name: "Resort Pool", included: true, icon: Waves },
+        { name: "Spa Access", included: true, icon: MapPin },
+        { name: "High-Speed WiFi", included: true, icon: Wifi },
+        { name: "Golf Course Access", included: true, icon: Utensils },
+        { name: "Free Parking", included: true, icon: Car },
+        { name: "Desert Views", included: true, icon: Check },
+        { name: "Fitness Center", included: true, icon: Check },
+        { name: "Private Golf Lessons", included: false, icon: X },
+        { name: "Premium Spa Services", included: false, icon: X },
+        { name: "Fine Dining", included: false, icon: X },
+      ],
+      paidAmenities: [
+        { name: "BBQ Grill Setup", price: 35, description: "Desert BBQ setup with gas grill and accessories" },
+        { name: "Golf Lessons", price: 120, description: "Private golf lesson with PGA professional" },
+        { name: "Spa Treatment", price: 150, description: "Signature desert stone massage" },
+        { name: "Horseback Riding", price: 95, description: "Guided desert horseback riding tour" },
+        { name: "Wine Tasting", price: 65, description: "Private wine tasting experience" },
+        { name: "Desert Tour", price: 80, description: "Guided desert hiking and photography tour" },
       ],
       guests: 10,
       bedrooms: 5,
@@ -257,11 +321,24 @@ const getPropertyById = (id: string) => {
         "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&h=600&fit=crop&crop=center",
       ],
       amenities: [
-        { name: "Historic Garden", icon: MapPin },
-        { name: "Library", icon: Waves },
-        { name: "WiFi", icon: Wifi },
-        { name: "Full Kitchen", icon: Utensils },
-        { name: "Parking", icon: Car },
+        { name: "Historic Garden", included: true, icon: MapPin },
+        { name: "Private Library", included: true, icon: Waves },
+        { name: "High-Speed WiFi", included: true, icon: Wifi },
+        { name: "Full Kitchen", included: true, icon: Utensils },
+        { name: "Free Parking", included: true, icon: Car },
+        { name: "Original Architecture", included: true, icon: Check },
+        { name: "Antique Furnishings", included: true, icon: Check },
+        { name: "Butler Service", included: false, icon: X },
+        { name: "Private Tours", included: false, icon: X },
+        { name: "Formal Dining", included: false, icon: X },
+      ],
+      paidAmenities: [
+        { name: "BBQ Garden Setup", price: 40, description: "Historic garden BBQ setup with period-style grill" },
+        { name: "Butler Service", price: 150, description: "Professional butler service for the day" },
+        { name: "Private Tour Guide", price: 85, description: "Personal historic district tour guide" },
+        { name: "Formal Dinner Service", price: 200, description: "Elegant formal dinner service setup" },
+        { name: "Garden Photography", price: 120, description: "Professional garden and mansion photography" },
+        { name: "Carriage Ride", price: 75, description: "Private horse-drawn carriage tour" },
       ],
       guests: 12,
       bedrooms: 6,
@@ -320,11 +397,24 @@ const getPropertyById = (id: string) => {
       reviews: 178,
       images: ["https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&h=600&fit=crop&crop=center"],
       amenities: [
-        { name: "Lake Access", icon: Waves },
-        { name: "Dock", icon: MapPin },
-        { name: "WiFi", icon: Wifi },
-        { name: "Full Kitchen", icon: Utensils },
-        { name: "Kayaks", icon: Car },
+        { name: "Lake Access", included: true, icon: Waves },
+        { name: "Private Dock", included: true, icon: MapPin },
+        { name: "High-Speed WiFi", included: true, icon: Wifi },
+        { name: "Full Kitchen", included: true, icon: Utensils },
+        { name: "Kayaks Included", included: true, icon: Car },
+        { name: "Mountain Views", included: true, icon: Check },
+        { name: "Fire Pit Area", included: true, icon: Check },
+        { name: "Boat Rental", included: false, icon: X },
+        { name: "Fishing Guide", included: false, icon: X },
+        { name: "Water Sports Equipment", included: false, icon: X },
+      ],
+      paidAmenities: [
+        { name: "BBQ Lakeside Setup", price: 30, description: "Lakeside BBQ setup with charcoal grill" },
+        { name: "Boat Rental", price: 180, description: "Pontoon boat rental for full day" },
+        { name: "Fishing Guide", price: 250, description: "Professional fishing guide for half day" },
+        { name: "Water Sports Package", price: 120, description: "Jet ski, paddleboard, and wakeboard rental" },
+        { name: "Sunset Cruise", price: 95, description: "Private sunset cruise on Lake Tahoe" },
+        { name: "Campfire Setup", price: 25, description: "Professional campfire setup with s'mores kit" },
       ],
       guests: 8,
       bedrooms: 4,
@@ -374,6 +464,9 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
   const [checkOut, setCheckOut] = useState("")
   const [guests, setGuests] = useState(2)
   const [selectedServices, setSelectedServices] = useState<string[]>([])
+  const [selectedPaidAmenities, setSelectedPaidAmenities] = useState<string[]>([])
+  const [isFavorite, setIsFavorite] = useState(false)
+  const { toast } = useToast()
 
   if (!property) {
     return (
@@ -406,14 +499,94 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
       const service = addOnServices.find((s) => s.id === serviceId)
       return total + (service ? service.price : 0)
     }, 0)
+    const paidAmenitiesTotal = selectedPaidAmenities.reduce((total, amenityName) => {
+      const amenity = property.paidAmenities.find((a) => a.name === amenityName)
+      return total + (amenity ? amenity.price : 0)
+    }, 0)
     const serviceFee = 50
-    return propertyTotal + servicesTotal + serviceFee
+    return propertyTotal + servicesTotal + paidAmenitiesTotal + serviceFee
   }
 
   const toggleService = (serviceId: string) => {
     setSelectedServices((prev) =>
       prev.includes(serviceId) ? prev.filter((id) => id !== serviceId) : [...prev, serviceId],
     )
+  }
+
+  const togglePaidAmenity = (amenityName: string) => {
+    setSelectedPaidAmenities((prev) =>
+      prev.includes(amenityName) ? prev.filter((name) => name !== amenityName) : [...prev, amenityName],
+    )
+  }
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text)
+      toast({
+        title: "Link copied!",
+        description: "Property link has been copied to your clipboard.",
+      })
+    } catch (err) {
+      console.error("Failed to copy: ", err)
+      toast({
+        title: "Copy failed",
+        description: "Unable to copy link to clipboard.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const shareViaEmail = () => {
+    const subject = encodeURIComponent(`Check out this amazing property: ${property.title}`)
+    const body = encodeURIComponent(
+      `I found this incredible property on Stayvy.co that I thought you'd love!\n\n${property.title}\n${property.location}\n\n${window.location.href}`,
+    )
+    window.open(`mailto:?subject=${subject}&body=${body}`)
+  }
+
+  const shareViaFacebook = () => {
+    const url = encodeURIComponent(window.location.href)
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, "_blank", "width=600,height=400")
+  }
+
+  const shareViaTwitter = () => {
+    const text = encodeURIComponent(`Check out this amazing property: ${property.title} in ${property.location}`)
+    const url = encodeURIComponent(window.location.href)
+    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank", "width=600,height=400")
+  }
+
+  const handleShare = async () => {
+    const shareData = {
+      title: property.title,
+      text: `Check out this amazing property in ${property.location}!`,
+      url: window.location.href,
+    }
+
+    // Check if Web Share API is supported and available
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      try {
+        await navigator.share(shareData)
+        toast({
+          title: "Shared successfully!",
+          description: "Property has been shared.",
+        })
+      } catch (error) {
+        console.error("Error sharing:", error)
+        // Fallback to copy link if sharing fails
+        copyToClipboard(window.location.href)
+      }
+    } else {
+      // Fallback: copy to clipboard
+      copyToClipboard(window.location.href)
+    }
+  }
+
+  const toggleFavorite = () => {
+    setIsFavorite((prev) => !prev)
+    toast({
+      title: isFavorite ? "Removed from wishlist" : "Added to wishlist",
+      description: isFavorite ? "Property removed from your wishlist." : "Property added to your wishlist.",
+    })
   }
 
   return (
@@ -444,12 +617,38 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                   crossOrigin="anonymous"
                 />
                 <div className="absolute top-4 right-4 flex gap-2">
-                  <Button size="sm" variant="outline" className="bg-black/50 border-white/20">
-                    <Heart className="w-4 h-4" />
+                  <Button size="sm" variant="outline" className="bg-black/50 border-white/20" onClick={toggleFavorite}>
+                    <Heart className={`w-4 h-4 ${isFavorite ? "fill-red-500 text-red-500" : ""}`} />
                   </Button>
-                  <Button size="sm" variant="outline" className="bg-black/50 border-white/20">
-                    <Share2 className="w-4 h-4" />
-                  </Button>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button size="sm" variant="outline" className="bg-black/50 border-white/20">
+                        <Share2 className="w-4 h-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end" className="w-48">
+                      <DropdownMenuItem onClick={handleShare}>
+                        <Share2 className="w-4 h-4 mr-2" />
+                        Share Link
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => copyToClipboard(window.location.href)}>
+                        <Copy className="w-4 h-4 mr-2" />
+                        Copy Link
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={shareViaEmail}>
+                        <Mail className="w-4 h-4 mr-2" />
+                        Share via Email
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={shareViaFacebook}>
+                        <Facebook className="w-4 h-4 mr-2" />
+                        Share on Facebook
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={shareViaTwitter}>
+                        <Twitter className="w-4 h-4 mr-2" />
+                        Share on Twitter
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </div>
               </motion.div>
 
@@ -521,33 +720,71 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
                 <p className="text-muted-foreground leading-relaxed">{property.description}</p>
               </div>
 
+              {/* Amenities Table */}
               <div>
-                <h2 className="text-xl font-semibold mb-4">Amenities</h2>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                  {property.amenities.map((amenity) => (
-                    <div key={amenity.name} className="flex items-center space-x-2 text-muted-foreground">
-                      <amenity.icon className="w-5 h-5 text-red-600" />
-                      <span>{amenity.name}</span>
-                    </div>
-                  ))}
-                </div>
+                <h2 className="text-xl font-semibold mb-4">Amenities & Features</h2>
+                <Card className="bg-card border-border">
+                  <CardContent className="p-0">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Amenity</TableHead>
+                          <TableHead className="text-center">Included</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {property.amenities.map((amenity, index) => (
+                          <TableRow key={index}>
+                            <TableCell className="flex items-center space-x-2">
+                              <amenity.icon className="w-4 h-4 text-red-600" />
+                              <span>{amenity.name}</span>
+                            </TableCell>
+                            <TableCell className="text-center">
+                              {amenity.included ? (
+                                <Check className="w-5 h-5 text-green-500 mx-auto" />
+                              ) : (
+                                <X className="w-5 h-5 text-red-500 mx-auto" />
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </CardContent>
+                </Card>
               </div>
 
+              {/* Paid Add-ons */}
               <div>
-                <h2 className="text-xl font-semibold mb-4">What this place offers</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {property.features.map((feature, index) => (
-                    <div key={index} className="flex items-center space-x-2 text-muted-foreground">
-                      <div className="w-2 h-2 bg-red-600 rounded-full" />
-                      <span>{feature}</span>
-                    </div>
+                <h2 className="text-xl font-semibold mb-4">Premium Add-ons</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {property.paidAmenities.map((amenity) => (
+                    <Card
+                      key={amenity.name}
+                      className={`cursor-pointer transition-all ${
+                        selectedPaidAmenities.includes(amenity.name)
+                          ? "bg-red-900/20 border-red-600"
+                          : "bg-card border-border hover:border-muted-foreground"
+                      }`}
+                      onClick={() => togglePaidAmenity(amenity.name)}
+                    >
+                      <CardContent className="p-4">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="font-semibold">{amenity.name}</h3>
+                            <p className="text-sm text-muted-foreground">{amenity.description}</p>
+                          </div>
+                          <p className="font-bold text-red-600">${amenity.price}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
                   ))}
                 </div>
               </div>
 
               {/* Add-on Services */}
               <div>
-                <h2 className="text-xl font-semibold mb-4">Enhance Your Stay</h2>
+                <h2 className="text-xl font-semibold mb-4">Professional Services</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {addOnServices.map((service) => (
                     <Card
@@ -638,101 +875,119 @@ export default function PropertyPage({ params }: { params: { id: string } }) {
             </div>
           </div>
 
-          {/* Booking Card */}
-          <div className="lg:col-span-1 space-y-6">
-            <Card className="bg-card border-border sticky top-24">
-              <CardHeader>
-                <CardTitle>Reserve Your Stay</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <Label htmlFor="checkin" className="text-muted-foreground">
-                      Check-in
-                    </Label>
-                    <Input
-                      id="checkin"
-                      type="date"
-                      value={checkIn}
-                      onChange={(e) => setCheckIn(e.target.value)}
-                      className="bg-background border-border"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="checkout" className="text-muted-foreground">
-                      Check-out
-                    </Label>
-                    <Input
-                      id="checkout"
-                      type="date"
-                      value={checkOut}
-                      onChange={(e) => setCheckOut(e.target.value)}
-                      className="bg-background border-border"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="guests" className="text-muted-foreground">
-                    Guests
-                  </Label>
-                  <Input
-                    id="guests"
-                    type="number"
-                    min="1"
-                    max={property.guests}
-                    value={guests}
-                    onChange={(e) => setGuests(Number.parseInt(e.target.value))}
-                    className="bg-background border-border"
-                  />
-                </div>
-
-                <Separator />
-
-                <div className="space-y-2">
-                  <div className="flex justify-between text-muted-foreground">
-                    <span>
-                      ${property.price} x {calculateNights()} nights
-                    </span>
-                    <span>${calculateNights() * property.price}</span>
-                  </div>
-                  {selectedServices.length > 0 && (
-                    <div className="space-y-1">
-                      {selectedServices.map((serviceId) => {
-                        const service = addOnServices.find((s) => s.id === serviceId)
-                        return service ? (
-                          <div key={serviceId} className="flex justify-between text-muted-foreground text-sm">
-                            <span>{service.name}</span>
-                            <span>${service.price}</span>
-                          </div>
-                        ) : null
-                      })}
+          {/* Booking Sidebar - Fixed positioning */}
+          <div className="lg:col-span-1">
+            <div className="lg:sticky lg:top-24 space-y-6">
+              {/* Booking Card */}
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <CardTitle>Reserve Your Stay</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="checkin" className="text-muted-foreground">
+                        Check-in
+                      </Label>
+                      <Input
+                        id="checkin"
+                        type="date"
+                        value={checkIn}
+                        onChange={(e) => setCheckIn(e.target.value)}
+                        className="bg-background border-border"
+                      />
                     </div>
-                  )}
-                  <div className="flex justify-between text-muted-foreground">
-                    <span>Service fee</span>
-                    <span>$50</span>
+                    <div>
+                      <Label htmlFor="checkout" className="text-muted-foreground">
+                        Check-out
+                      </Label>
+                      <Input
+                        id="checkout"
+                        type="date"
+                        value={checkOut}
+                        onChange={(e) => setCheckOut(e.target.value)}
+                        className="bg-background border-border"
+                      />
+                    </div>
                   </div>
+
+                  <div>
+                    <Label htmlFor="guests" className="text-muted-foreground">
+                      Guests
+                    </Label>
+                    <Input
+                      id="guests"
+                      type="number"
+                      min="1"
+                      max={property.guests}
+                      value={guests}
+                      onChange={(e) => setGuests(Number.parseInt(e.target.value))}
+                      className="bg-background border-border"
+                    />
+                  </div>
+
                   <Separator />
-                  <div className="flex justify-between text-xl font-bold">
-                    <span>Total</span>
-                    <span>${calculateTotal()}</span>
+
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-muted-foreground">
+                      <span>
+                        ${property.price} x {calculateNights()} nights
+                      </span>
+                      <span>${calculateNights() * property.price}</span>
+                    </div>
+                    {selectedServices.length > 0 && (
+                      <div className="space-y-1">
+                        {selectedServices.map((serviceId) => {
+                          const service = addOnServices.find((s) => s.id === serviceId)
+                          return service ? (
+                            <div key={serviceId} className="flex justify-between text-muted-foreground text-sm">
+                              <span>{service.name}</span>
+                              <span>${service.price}</span>
+                            </div>
+                          ) : null
+                        })}
+                      </div>
+                    )}
+                    {selectedPaidAmenities.length > 0 && (
+                      <div className="space-y-1">
+                        {selectedPaidAmenities.map((amenityName) => {
+                          const amenity = property.paidAmenities.find((a) => a.name === amenityName)
+                          return amenity ? (
+                            <div key={amenityName} className="flex justify-between text-muted-foreground text-sm">
+                              <span>{amenity.name}</span>
+                              <span>${amenity.price}</span>
+                            </div>
+                          ) : null
+                        })}
+                      </div>
+                    )}
+                    <div className="flex justify-between text-muted-foreground">
+                      <span>Service fee</span>
+                      <span>$50</span>
+                    </div>
+                    <Separator />
+                    <div className="flex justify-between text-xl font-bold">
+                      <span>Total</span>
+                      <span>${calculateTotal()}</span>
+                    </div>
                   </div>
-                </div>
 
-                <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
-                  <CreditCard className="w-4 h-4 mr-2" />
-                  Reserve Now
-                </Button>
+                  <Button className="w-full bg-red-600 hover:bg-red-700 text-white">
+                    <CreditCard className="w-4 h-4 mr-2" />
+                    Reserve Now
+                  </Button>
 
-                <p className="text-xs text-muted-foreground text-center">
-                  You won't be charged yet. Review your booking details on the next page.
-                </p>
-              </CardContent>
-            </Card>
+                  <p className="text-xs text-muted-foreground text-center">
+                    You won't be charged yet. Review your booking details on the next page.
+                  </p>
+                </CardContent>
+              </Card>
 
-            {/* Calendar */}
-            <BookingCalendar />
+              {/* Calendar - Separate card with proper spacing */}
+              <div className="mt-8">
+                <BookingCalendar />
+              </div>
+            </div>
           </div>
         </div>
       </div>

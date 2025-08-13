@@ -23,7 +23,7 @@ const contactMethods = [
     icon: Mail,
     title: "Email Support",
     description: "Send us a detailed message",
-    contact: "support@vacationstay.com",
+    contact: "support@stayvy.co",
     availability: "Response within 2 hours",
   },
   {
